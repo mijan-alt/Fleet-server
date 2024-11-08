@@ -1,9 +1,20 @@
-import { getActiveUser } from "../controllers/User/userController";
-import { Router } from "express";
-import { newAuthChecker } from "../middlewares";
+import express from "express";
+import { UserInterface } from "../interfaces";
+import { isAuthenticated } from "../middlewares/authChecker";
 
-const userRouter = Router();
+const router = express.Router();
 
-userRouter.route("/active-user").get(newAuthChecker, getActiveUser);
+// Protected route to check authentication
+router.get("/check-auth",  (req, res) => {
+  const user = req.user as UserInterface
 
-export default userRouter;
+  console.log('authenticated', req.isAuthenticated())
+  res.json({
+    isAuthenticated: req.isAuthenticated(),
+    user: user
+      ? { _id: user._id, name: user.name, email: user.email }
+      : null,
+  });
+});
+
+export const apiRoutes = router;

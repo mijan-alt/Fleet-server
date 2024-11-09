@@ -2,7 +2,7 @@ import { Request, Response, Router } from "express";
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import multer from "multer";
-import { newAuthChecker } from "../middlewares";
+// import { newAuthChecker } from "../middlewares";
 import { checkEmail } from "../controllers/Auth/authController";
 
 import {
@@ -32,7 +32,7 @@ const upload = multer({ storage });
 authRouter.post("/check-email", checkEmail)
 authRouter.post("/sign-up", signUp);
 authRouter.post("/login", login);
-authRouter.get("/logout", newAuthChecker, logout);
+authRouter.get("/logout",  logout);
 authRouter.post("/forgot-password", forgotPassword);
 authRouter.get("/verify/:token", verifyToken);
 authRouter.post("/verify-email", verifyEmail);
@@ -42,7 +42,7 @@ authRouter.post("/updatepassword", updatePassword);
 
 // Email verification and account closure routes
 authRouter.post("/verify-email", verifyEmail);
-authRouter.post("/close-account", newAuthChecker, closeAccount);
+authRouter.post("/close-account",  closeAccount);
 
 
 export default authRouter;

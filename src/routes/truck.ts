@@ -1,15 +1,17 @@
 // src/routes/trucks.ts
 import { Router } from "express";
 import { Truck } from "../Models/Trucks";
+import { UserInterface } from "../interfaces";
 
 const router = Router();
 
 router.get("/", async (req, res) => {
+    console.log("getting these mother fucking trucks")
+    const currentUser = req.user as UserInterface
+    console.log("current user", currentUser)
   try {
-    const trucks = await Truck.find()
-      .populate("maintenanceRecords")
-      .sort({ createdAt: -1 });
-    res.json(trucks);
+    const trucks = await Truck.find({userId:currentUser._id}).sort({ createdAt: -1 });
+    res.status(200).json(trucks)
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch trucks" });
   }
@@ -30,7 +32,8 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  try {
+     console.log("hit trucks")
+    try {
     const truck = new Truck(req.body);
     await truck.save();
     res.status(201).json(truck);
@@ -40,6 +43,8 @@ router.post("/", async (req, res) => {
 });
 
 router.put("/:id", async (req, res) => {
+
+    console.log(`updating truck with id ${req.params.id}`)
   try {
     const truck = await Truck.findByIdAndUpdate(req.params.id, req.body, {
       new: true,

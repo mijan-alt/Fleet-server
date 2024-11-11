@@ -7,6 +7,8 @@ import { authRoutes } from "./routes/auth";
 import { apiRoutes } from "./routes/userRoute";
 import { connectDb } from "./db/connectDb";
 import session from "express-session";
+import { truckRoutes } from "./routes/truck";
+import { driverRoutes } from "./routes/drivers";
 
 
 const app = express();
@@ -31,6 +33,8 @@ configurePassport();
 // Routes
 app.use("/", authRoutes);
 app.use("/", apiRoutes);
+app.use("/trucks", truckRoutes);
+app.use("/drivers", driverRoutes);
 
 
 connectDb(app);

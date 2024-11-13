@@ -10,10 +10,12 @@ export interface IDriver extends Document {
   hireDate: Date;
   contactInfo: string;
   performanceRating: number;
+  userId: mongoose.Types.ObjectId;
 }
 
 const DriverSchema = new Schema<IDriver>(
   {
+    userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
     name: { type: String, required: true },
     licenseNumber: { type: String, required: true, unique: true },
     licenseExpiry: { type: Date, required: true },

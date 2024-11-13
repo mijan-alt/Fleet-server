@@ -1,13 +1,15 @@
 // src/routes/drivers.ts
 import { Router } from "express";
 import { Driver } from "../Models/Drivers";
+import { UserInterface } from "../interfaces";
 
 const router = Router();
 
 router.get("/", async (req, res) => {
+    const user=req.user as UserInterface
   try {
-    const drivers = await Driver.find().sort({ createdAt: -1 });
-    res.json(drivers);
+    const drivers = await Driver.find({userId:user._id}).sort({ createdAt: -1 });
+    res.status(200).json(drivers);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch drivers" });
   }
@@ -26,10 +28,16 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  try {
-    const driver = new Driver(req.body);
+
+    console.log("hit add drivers")
+    const user = req.user as UserInterface
+    try {
+    const driver = new Driver({
+        ...req.body,
+        userId:user._id
+    });
     await driver.save();
-    res.status(201).json(driver);
+    res.status(200).json(driver);
   } catch (error) {
     res.status(500).json({ error: "Failed to create driver" });
   }

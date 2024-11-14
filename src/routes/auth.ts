@@ -76,7 +76,10 @@ router.get(
 router.post("/logout", (req, res) => {
   console.log("hit logout")
   req.logout(() => {
-    res.status(200).json({ message: "Logged out successfully" });
+    res.status(200).json({
+      message: "Logged out successfully",
+      authenticated:req.isAuthenticated()
+    });
   });
 });
 

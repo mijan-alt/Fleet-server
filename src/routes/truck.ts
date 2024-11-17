@@ -2,10 +2,11 @@
 import { Router } from "express";
 import { Truck } from "../Models/Trucks";
 import { UserInterface } from "../interfaces";
+import {checkAuth} from '../middlewares/authChecker'
 
 const router = Router();
 
-router.get("/", async (req, res) => {
+router.get("/", checkAuth, async (req, res) => {
     console.log("getting these mother fucking trucks")
     const currentUser = req.user as UserInterface
     console.log("current user", currentUser)
@@ -18,7 +19,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", checkAuth, async (req, res) => {
   try {
     const truck = await Truck.findById(req.params.id).populate(
       "maintenanceRecords"

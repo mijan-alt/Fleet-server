@@ -1,6 +1,6 @@
 import express from "express";
 import { UserInterface } from "../interfaces";
-import { isAuthenticated } from "../middlewares/authChecker";
+
 
 const router = express.Router();
 

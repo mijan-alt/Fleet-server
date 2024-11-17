@@ -1,5 +1,5 @@
 
-export const isAuthenticated = (req:any, res:any, next:any) => {
+export const checkAuth= (req:any, res:any, next:any) => {
   if (req.isAuthenticated()) {
     return next();
   }
